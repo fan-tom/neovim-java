@@ -148,4 +148,13 @@ public class NotificationMessageBuilderTest {
         // To string doesn't crash
         var result = builder.build().toString();
     }
+//
+//    @Test
+//    public void testMsgPackNotification() {
+//        // Given a builder with some defaults
+//        JsonNode msgpackNode = new ArrayNode(new JsonNodeFactory(false), List.of(new POJONode(new MessagePackExtensionType((byte)0, new byte[]{2}))));
+//        JsonNode intNode = new ArrayNode(new JsonNodeFactory(false), List.of(new IntNode(1)));
+//        System.out.println(intNode.toString());
+//        System.out.println(msgpackNode.toString());
+//    }
 }

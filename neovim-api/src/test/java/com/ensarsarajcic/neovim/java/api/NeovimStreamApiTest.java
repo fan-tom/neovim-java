@@ -24,16 +24,7 @@
 
 package com.ensarsarajcic.neovim.java.api;
 
-import com.ensarsarajcic.neovim.java.api.types.api.ChannelInfo;
-import com.ensarsarajcic.neovim.java.api.types.api.ClientAttributes;
-import com.ensarsarajcic.neovim.java.api.types.api.ClientInfo;
-import com.ensarsarajcic.neovim.java.api.types.api.ClientType;
-import com.ensarsarajcic.neovim.java.api.types.api.ClientVersionInfo;
-import com.ensarsarajcic.neovim.java.api.types.api.CommandInfo;
-import com.ensarsarajcic.neovim.java.api.types.api.GetCommandsOptions;
-import com.ensarsarajcic.neovim.java.api.types.api.MethodInfo;
-import com.ensarsarajcic.neovim.java.api.types.api.UiOptions;
-import com.ensarsarajcic.neovim.java.api.types.api.VimKeyMap;
+import com.ensarsarajcic.neovim.java.api.types.api.*;
 import com.ensarsarajcic.neovim.java.api.types.apiinfo.FunctionInfo;
 import com.ensarsarajcic.neovim.java.api.types.apiinfo.ParamInfo;
 import com.ensarsarajcic.neovim.java.api.types.apiinfo.TypeInfo;
@@ -54,12 +45,7 @@ import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NeovimStreamApiTest extends BaseStreamApiTest {
