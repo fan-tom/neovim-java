@@ -40,7 +40,7 @@ public final class BufferChangedTickEvent implements BufferEvent {
             ObjectMapper objectMapper = ObjectMappers.defaultNeovimMapper();
             return new BufferChangedTickEvent(
                     objectMapper.readerFor(Buffer.class).readValue(objectMapper.writeValueAsBytes(list.get(0))),
-                    (Long) list.get(1)
+                    (Integer) list.get(1)
             );
         } catch (IOException e) {
             e.printStackTrace();

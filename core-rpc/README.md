@@ -7,7 +7,7 @@ This is the Core RPC module, the core of this library. It provides the most basi
 
 It provides *Request*, *Response* and *Notification* messages, and a way to send and receive them. It uses `RpcConnection` interface for
 communication which just provides input and ouput streams. This module provides basic implementations of that interface allowing communication
-either through **TCP socket** or throguh **process** (used for embedded neovim instance).
+either through **TCP socket** or through **process** (used for embedded neovim instance).
 
 Include it in your dependencies:  
 Maven:  
