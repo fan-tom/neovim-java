@@ -1,0 +1,905 @@
+Index: neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/FlushEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/FlushEvent.java b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/FlushEvent.java
+new file mode 100644
+--- /dev/null	(date 1598291989354)
++++ b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/FlushEvent.java	(date 1598291989354)
+@@ -0,0 +1,42 @@
++/*
++ * MIT License
++ *
++ * Copyright (c) 2018 Ensar Sarajčić
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in all
++ * copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ */
++
++package com.ensarsarajcic.neovim.java.notifications.ui.global;
++
++import com.fasterxml.jackson.annotation.JsonFormat;
++
++@JsonFormat(shape = JsonFormat.Shape.ARRAY)
++public final class FlushEvent implements UiGlobalEvent {
++    public static final String NAME = "flush";
++
++    @Override
++    public String getEventName() {
++        return NAME;
++    }
++
++    @Override
++    public String toString() {
++        return "FlushEvent";
++    }
++}
+Index: neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/grid/linegrid/DefaultColorsSet.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/grid/linegrid/DefaultColorsSet.java b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/grid/linegrid/DefaultColorsSet.java
+new file mode 100644
+--- /dev/null	(date 1598292666676)
++++ b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/grid/linegrid/DefaultColorsSet.java	(date 1598292666676)
+@@ -0,0 +1,68 @@
++/*
++ * MIT License
++ *
++ * Copyright (c) 2018 Ensar Sarajčić
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in all
++ * copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
++ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
++ * SOFTWARE.
++ */
++
++package com.ensarsarajcic.neovim.java.notifications.ui.grid.linegrid;
++
++import com.fasterxml.jackson.annotation.JsonFormat;
++import com.fasterxml.jackson.annotation.JsonProperty;
++
++@JsonFormat(shape = JsonFormat.Shape.ARRAY)
++public final class DefaultColorsSet implements UiLineGridEvent {
++    public static final String NAME = "default_colors_set";
++
++    private int fgColor;
++    private int bgColor;
++    private int specialColor;
++    private int fgCtermColor;
++    private int bgCtermColor;
++
++    public DefaultColorsSet(
++            @JsonProperty(value = "rgb_fg", index = 0) int fgColor,
++            @JsonProperty(value = "rgb_bg", index = 1) int bgColor,
++            @JsonProperty(value = "rgb_sp", index = 2) int specialColor,
++            @JsonProperty(value = "cterm_fg", index = 3) int fgCtermColor,
++            @JsonProperty(value = "cterm_bg", index = 4) int bgCtermColor) {
++        this.fgColor=fgColor;
++        this.bgColor=bgColor;
++        this.specialColor=specialColor;
++        this.fgCtermColor=fgCtermColor;
++        this.bgCtermColor=bgCtermColor;
++    }
++
++    @Override
++    public String getEventName() {
++        return NAME;
++    }
++
++    @Override
++    public String toString() {
++        return "GridClearEvent{" +
++                "fgColor=" + fgColor +
++                ", bgColor=" + bgColor +
++                ", specialColor=" + specialColor +
++                ", fgCtermColor=" + fgCtermColor +
++                ", bgCtermColor=" + bgCtermColor +
++                '}';
++    }
++}
+Index: neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimApi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimApi.java b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimApi.java
+--- a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimApi.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimApi.java	(date 1598883187253)
+@@ -32,6 +32,7 @@
+ import com.ensarsarajcic.neovim.java.api.types.msgpack.Window;
+ import com.ensarsarajcic.neovim.java.api.types.apiinfo.ApiInfo;
+ import com.ensarsarajcic.neovim.java.api.window.NeovimWindowApi;
++import com.ensarsarajcic.neovim.java.corerpc.message.RequestMessage;
+ 
+ import java.util.List;
+ import java.util.Map;
+@@ -115,9 +116,9 @@
+     String SELECT_POPUPMENU_ITEM = "nvim_select_popupmenu_item";
+     // endregion
+ 
+-    @NeovimApiFunction(name = CALL_ATOMIC, since = 1)
+-    CompletableFuture<List> sendAtomic(AtomicCallBuilder atomicCallBuilder);
+-    AtomicCallBuilder prepareAtomic();
++//    @NeovimApiFunction(name = CALL_ATOMIC, since = 1)
++//    CompletableFuture<AtomicResponse> sendAtomic(RequestMessage... requests);
++//    AtomicCallBuilder prepareAtomic();
+ 
+     @NeovimApiFunction(name = GET_HIGHLIGHT_BY_ID, since = 3)
+     CompletableFuture<Map> getHighlightById(int id, boolean rgb);
+Index: neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/types/api/UiOptions.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/types/api/UiOptions.java b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/types/api/UiOptions.java
+--- a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/types/api/UiOptions.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/types/api/UiOptions.java	(date 1598357955378)
+@@ -29,13 +29,23 @@
+ 
+ @JsonIgnoreProperties(ignoreUnknown = true)
+ public final class UiOptions {
+-    public static final UiOptions TERMINAL = new UiOptions(false, false, false, false, false);
+-    public static final UiOptions FULL_UI = new UiOptions(true, true, true, true, true);
++    public static final UiOptions TERMINAL = new UiOptions(false, false, false, false, false, false, false, false, false , false);
++    public static final UiOptions FULL_UI = new UiOptions(true, true, true, true, true, true, true, true, true, true);
+ 
+     @JsonProperty("rgb")
+     private final boolean rgb;
+     @JsonProperty("ext_popupmenu")
+     private final boolean extPopupMenu;
++    @JsonProperty("override")
++    private final boolean override;
++    @JsonProperty("ext_linegrid")
++    private final boolean extLinegrid;
++    @JsonProperty("ext_messages")
++    private final boolean extMessages;
++    @JsonProperty("ext_multigrid")
++    private final boolean extMultigrid;
++    @JsonProperty("ext_termcolors")
++    private final boolean extTermcolors;
+     @JsonProperty("ext_tabline")
+     private final boolean extTabline;
+     @JsonProperty("ext_cmdline")
+@@ -53,12 +63,28 @@
+             @JsonProperty("ext_cmdline")
+                     boolean extCmdline,
+             @JsonProperty("ext_wildmenu")
+-                    boolean extWildmenu) {
++                    boolean extWildmenu,
++            @JsonProperty("override")
++                    boolean override,
++            @JsonProperty("ext_linegrid")
++                    boolean extLinegrid,
++            @JsonProperty("ext_messages")
++                    boolean extMessages,
++            @JsonProperty("ext_multigrid")
++                    boolean extMultigrid,
++            @JsonProperty("ext_termcolors")
++                    boolean extTermcolors
++            ) {
+         this.rgb = rgb;
+         this.extPopupMenu = extPopupMenu;
+         this.extTabline = extTabline;
+         this.extCmdline = extCmdline;
+         this.extWildmenu = extWildmenu;
++        this.override=override;
++        this.extLinegrid=extLinegrid;
++        this.extMessages=extMessages;
++        this.extMultigrid=extMultigrid;
++        this.extTermcolors=extTermcolors;
+     }
+ 
+     public boolean isRgb() {
+Index: neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilder.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilder.java b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilder.java
+--- a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilder.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilder.java	(date 1598883187229)
+@@ -42,15 +42,15 @@
+  * instead of sending them directly to the neovim instance
+  */
+ public final class AtomicCallBuilder implements NeovimApi {
+-    @Override
+-    public CompletableFuture<List> sendAtomic(AtomicCallBuilder atomicCallBuilder) {
+-        return null;
+-    }
++//    @Override
++//    public CompletableFuture<List> sendAtomic(AtomicCallBuilder atomicCallBuilder) {
++//        return null;
++//    }
+ 
+-    @Override
+-    public AtomicCallBuilder prepareAtomic() {
+-        return null;
+-    }
++//    @Override
++//    public AtomicCallBuilder prepareAtomic() {
++//        return null;
++//    }
+ 
+     @Override
+     public CompletableFuture<Map> getHighlightById(int id, boolean rgb) {
+Index: neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilderTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilderTest.java b/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilderTest.java
+--- a/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilderTest.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/AtomicCallBuilderTest.java	(date 1598883187222)
+@@ -78,8 +78,8 @@
+         assertNull(atomicCallBuilder.input(""));
+         assertNull(atomicCallBuilder.listRuntimePaths());
+         assertNull(atomicCallBuilder.parseExpression("", "", false));
+-        assertNull(atomicCallBuilder.prepareAtomic());
+-        assertNull(atomicCallBuilder.sendAtomic(null));
++//        assertNull(atomicCallBuilder.prepareAtomic());
++//        assertNull(atomicCallBuilder.sendAtomic(null));
+         assertNull(atomicCallBuilder.setClientInfo(null, null, null, null, null));
+         assertNull(atomicCallBuilder.setCurrentBuffer(null));
+         assertNull(atomicCallBuilder.setCurrentDir(null));
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/pom.xml	(date 1598259450996)
+@@ -6,7 +6,7 @@
+     <groupId>com.ensarsarajcic.neovim.java</groupId>
+     <artifactId>parent</artifactId>
+     <packaging>pom</packaging>
+-    <version>0.2.0-SNAPSHOT</version>
++    <version>0.2.1-SNAPSHOT</version>
+ 
+     <modules>
+         <!-- Core -->
+Index: neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApiTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApiTest.java b/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApiTest.java
+--- a/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApiTest.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-api/src/test/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApiTest.java	(date 1598883187209)
+@@ -58,21 +58,21 @@
+         new NeovimStreamApi(null);
+     }
+ 
+-    @Test
+-    public void atomicNotSupported() {
+-        try {
+-            neovimStreamApi.prepareAtomic();
+-            fail("Should have thrown unsupported operation exception");
+-        } catch (UnsupportedOperationException ex) {
+-
+-        }
+-        try {
+-            neovimStreamApi.sendAtomic(null);
+-            fail("Should have thrown unsupported operation exception");
+-        } catch (UnsupportedOperationException ex) {
+-
+-        }
+-    }
++//    @Test
++//    public void atomicNotSupported() {
++//        try {
++//            neovimStreamApi.prepareAtomic();
++//            fail("Should have thrown unsupported operation exception");
++//        } catch (UnsupportedOperationException ex) {
++//
++//        }
++//        try {
++//            neovimStreamApi.sendAtomic(null);
++//            fail("Should have thrown unsupported operation exception");
++//        } catch (UnsupportedOperationException ex) {
++//
++//        }
++//    }
+ 
+     @Test
+     public void getHightlightByIdTest() throws ExecutionException, InterruptedException {
+Index: reactive-core-rpc/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/reactive-core-rpc/pom.xml b/reactive-core-rpc/pom.xml
+--- a/reactive-core-rpc/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/reactive-core-rpc/pom.xml	(date 1598259451152)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: neovim-rx-api/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-rx-api/pom.xml b/neovim-rx-api/pom.xml
+--- a/neovim-rx-api/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-rx-api/pom.xml	(date 1598259451139)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicResponse.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicResponse.java b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicResponse.java
+new file mode 100644
+--- /dev/null	(date 1598883187240)
++++ b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/AtomicResponse.java	(date 1598883187240)
+@@ -0,0 +1,52 @@
++package com.ensarsarajcic.neovim.java.api;
++
++
++import com.fasterxml.jackson.annotation.JsonFormat;
++import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
++import com.fasterxml.jackson.annotation.JsonProperty;
++import com.fasterxml.jackson.annotation.JsonPropertyOrder;
++
++import java.util.List;
++
++@JsonFormat(shape = JsonFormat.Shape.ARRAY)
++@JsonPropertyOrder({"results", "error"})
++@JsonIgnoreProperties(ignoreUnknown = true)
++public final class AtomicResponse {
++    @JsonProperty("results")
++    private List<Object> results;
++    @JsonProperty("error")
++    private ErrorDescriptor error;
++    AtomicResponse(
++            @JsonProperty("results")
++                    List<Object> results,
++            @JsonProperty("error")
++                    ErrorDescriptor error
++    ) {
++        this.results = results;
++        this.error = error;
++    }
++
++
++    @JsonFormat(shape = JsonFormat.Shape.ARRAY)
++    @JsonPropertyOrder({"failedReqIdx", "errorType", "errorMessage"})
++    static final class ErrorDescriptor {
++        @JsonProperty("failedReqIdx")
++        private int failedReqIdx;
++        @JsonProperty("errorType")
++        private int errorType;
++        @JsonProperty("errorMessage")
++        private int errorMessage;
++        ErrorDescriptor(
++                @JsonProperty("failedReqIdx")
++                        int failedReqIdx,
++                @JsonProperty("errorType")
++                        int errorType,
++                @JsonProperty("errorMessage")
++                        int errorMessage
++        ) {
++            this.failedReqIdx = failedReqIdx;
++            this.errorType = errorType;
++            this.errorMessage = errorMessage;
++        }
++  }
++}
+Index: neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapper.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapper.java b/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapper.java
+--- a/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapper.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapper.java	(date 1598883187215)
+@@ -48,15 +48,15 @@
+         this.neovimApi = neovimApi;
+     }
+ 
+-    @Override
+-    public Single<List> sendAtomic(AtomicCallBuilder atomicCallBuilder) {
+-        return Single.fromFuture(neovimApi.sendAtomic(atomicCallBuilder));
+-    }
++//    @Override
++//    public Single<List> sendAtomic(AtomicCallBuilder atomicCallBuilder) {
++//        return Single.fromFuture(neovimApi.sendAtomic(atomicCallBuilder));
++//    }
+ 
+-    @Override
+-    public AtomicCallBuilder prepareAtomic() {
+-        return neovimApi.prepareAtomic();
+-    }
++//    @Override
++//    public AtomicCallBuilder prepareAtomic() {
++//        return neovimApi.prepareAtomic();
++//    }
+ 
+     @Override
+     public Single<Map> getHighlightById(int id, boolean rgb) {
+Index: neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxApi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxApi.java b/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxApi.java
+--- a/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxApi.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-rx-api/src/main/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxApi.java	(date 1598883187247)
+@@ -39,9 +39,9 @@
+ import java.util.Map;
+ 
+ public interface NeovimRxApi {
+-    @NeovimApiFunction(name = NeovimApi.CALL_ATOMIC, since = 1)
+-    Single<List> sendAtomic(AtomicCallBuilder atomicCallBuilder);
+-    AtomicCallBuilder prepareAtomic();
++//    @NeovimApiFunction(name = NeovimApi.CALL_ATOMIC, since = 1)
++//    Single<List> sendAtomic(AtomicCallBuilder atomicCallBuilder);
++//    AtomicCallBuilder prepareAtomic();
+ 
+     @NeovimApiFunction(name = NeovimApi.GET_HIGHLIGHT_BY_ID, since = 3)
+     Single<Map> getHighlightById(int id, boolean rgb);
+Index: rplugin-example/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/rplugin-example/pom.xml b/rplugin-example/pom.xml
+--- a/rplugin-example/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/rplugin-example/pom.xml	(date 1598259451182)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/ModeInfo.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/ModeInfo.java b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/ModeInfo.java
+--- a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/ModeInfo.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/ui/global/ModeInfo.java	(date 1598293827458)
+@@ -83,18 +83,22 @@
+             @JsonProperty(value = "blinkwait", index = 2) int blinkWait,
+             @JsonProperty(value = "blinkon", index = 3) int blinkOn,
+             @JsonProperty(value = "blinkoff", index = 4) int blinkOff,
+-            @JsonProperty(value = "hl_id", index = 5) int highlightId,
+-            @JsonProperty(value = "id_lm", index = 6) int highlightLangmapId,
+-            @JsonProperty(value = "short_name", index = 7) String shortName,
+-            @JsonProperty(value = "name", index = 8) String fullName,
+-            @JsonProperty(value = "mouse_shape", index = 9) Object mouseShape) {
++            // deprecated, use attr_id
++            @JsonProperty(value = "hl_id", index = 5) Integer highlightId,
++            // deprecated, use attr_lm
++            @JsonProperty(value = "id_lm", index = 6) Integer highlightLangmapId,
++            @JsonProperty(value = "attr_id", index = 7) int attrId,
++            @JsonProperty(value = "attr_id_lm", index = 8) int attrLangmapId,
++            @JsonProperty(value = "short_name", index = 9) String shortName,
++            @JsonProperty(value = "name", index = 10) String fullName,
++            @JsonProperty(value = "mouse_shape", index = 11) Object mouseShape) {
+         this.cursorShape = cursorShape;
+         this.cellPercentage = cellPercentage;
+         this.blinkWait = blinkWait;
+         this.blinkOn = blinkOn;
+         this.blinkOff = blinkOff;
+-        this.highlightId = highlightId;
+-        this.highlightLangmapId = highlightLangmapId;
++        this.highlightId = highlightId == null ? attrId : highlightId;
++        this.highlightLangmapId = highlightLangmapId == null ? attrLangmapId : highlightLangmapId;
+         this.shortName = shortName;
+         this.fullName = fullName;
+         this.mouseShape = mouseShape;
+Index: neovim-api/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/pom.xml b/neovim-api/pom.xml
+--- a/neovim-api/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-api/pom.xml	(date 1598259451099)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: testing-helpers/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/testing-helpers/pom.xml b/testing-helpers/pom.xml
+--- a/testing-helpers/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/testing-helpers/pom.xml	(date 1598259451196)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: api-explorer/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/api-explorer/pom.xml b/api-explorer/pom.xml
+--- a/api-explorer/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/api-explorer/pom.xml	(date 1598259451035)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: neovim-notifications/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-notifications/pom.xml b/neovim-notifications/pom.xml
+--- a/neovim-notifications/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-notifications/pom.xml	(date 1598259451122)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: handler-annotations/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/handler-annotations/pom.xml b/handler-annotations/pom.xml
+--- a/handler-annotations/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/handler-annotations/pom.xml	(date 1598259451083)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: unix-socket-connection/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/unix-socket-connection/pom.xml b/unix-socket-connection/pom.xml
+--- a/unix-socket-connection/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/unix-socket-connection/pom.xml	(date 1598259451242)
+@@ -27,7 +27,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: core-rpc/pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/core-rpc/pom.xml b/core-rpc/pom.xml
+--- a/core-rpc/pom.xml	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/core-rpc/pom.xml	(date 1598259451057)
+@@ -4,7 +4,7 @@
+     <parent>
+         <artifactId>parent</artifactId>
+         <groupId>com.ensarsarajcic.neovim.java</groupId>
+-        <version>0.2.0-SNAPSHOT</version>
++        <version>0.2.1-SNAPSHOT</version>
+     </parent>
+     <modelVersion>4.0.0</modelVersion>
+ 
+Index: neovim-rx-api/src/test/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapperTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-rx-api/src/test/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapperTest.java b/neovim-rx-api/src/test/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapperTest.java
+--- a/neovim-rx-api/src/test/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapperTest.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-rx-api/src/test/java/com/ensarsarajcic/neovim/java/rxapi/NeovimRxWrapperTest.java	(date 1598883187202)
+@@ -93,14 +93,14 @@
+         verify(neovimApi).resizeUi(1, 1);
+     }
+ 
+-    @Test
+-    public void delegatesAtomicCall() {
+-        var atomicCallBuilder = neovimRxWrapper.prepareAtomic();
+-        verify(neovimApi).prepareAtomic();
+-        given(neovimApi.sendAtomic(atomicCallBuilder)).willReturn(CompletableFuture.completedFuture(Collections.emptyList()));
+-        neovimRxWrapper.sendAtomic(atomicCallBuilder);
+-        verify(neovimApi).sendAtomic(atomicCallBuilder);
+-    }
++//    @Test
++//    public void delegatesAtomicCall() {
++//        var atomicCallBuilder = neovimRxWrapper.prepareAtomic();
++//        verify(neovimApi).prepareAtomic();
++//        given(neovimApi.sendAtomic(atomicCallBuilder)).willReturn(CompletableFuture.completedFuture(Collections.emptyList()));
++//        neovimRxWrapper.sendAtomic(atomicCallBuilder);
++//        verify(neovimApi).sendAtomic(atomicCallBuilder);
++//    }
+ 
+     @Test
+     public void delegatesHighlightCalls() {
+Index: neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/NotificationCreatorCollector.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/NotificationCreatorCollector.java b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/NotificationCreatorCollector.java
+--- a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/NotificationCreatorCollector.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/NotificationCreatorCollector.java	(date 1598259405980)
+@@ -33,6 +33,7 @@
+ 
+ import java.io.IOException;
+ import java.lang.reflect.Field;
++import java.net.URISyntaxException;
+ import java.util.HashMap;
+ import java.util.List;
+ import java.util.Map;
+@@ -82,8 +83,8 @@
+                     e.printStackTrace();
+                 }
+             }
+-        } catch (ClassNotFoundException | IOException e) {
+-            log.error("An error ocurred while building creators for ui events!", e);
++        } catch (/*ClassNotFoundException | */IOException | URISyntaxException e) {
++            log.error("An error occurred while building creators for ui events!", e);
+             e.printStackTrace();
+         }
+         return uiEventCreators;
+@@ -115,8 +116,8 @@
+                     e.printStackTrace();
+                 }
+             }
+-        } catch (ClassNotFoundException | IOException e) {
+-            log.error("An error ocurred while building creators for buffer events!", e);
++        } catch (/*ClassNotFoundException | */IOException | URISyntaxException e) {
++            log.error("An error occurred while building creators for buffer events!", e);
+             e.printStackTrace();
+         }
+         return bufferEventCreators;
+Index: neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/buffer/BufferChangedTickEvent.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/buffer/BufferChangedTickEvent.java b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/buffer/BufferChangedTickEvent.java
+--- a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/buffer/BufferChangedTickEvent.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/buffer/BufferChangedTickEvent.java	(date 1598287842011)
+@@ -40,7 +40,7 @@
+             ObjectMapper objectMapper = ObjectMappers.defaultNeovimMapper();
+             return new BufferChangedTickEvent(
+                     objectMapper.readerFor(Buffer.class).readValue(objectMapper.writeValueAsBytes(list.get(0))),
+-                    (Long) list.get(1)
++                    (Integer) list.get(1)
+             );
+         } catch (IOException e) {
+             e.printStackTrace();
+Index: core-rpc/src/test/java/com/ensarsarajcic/neovim/java/corerpc/message/NotificationMessageBuilderTest.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/core-rpc/src/test/java/com/ensarsarajcic/neovim/java/corerpc/message/NotificationMessageBuilderTest.java b/core-rpc/src/test/java/com/ensarsarajcic/neovim/java/corerpc/message/NotificationMessageBuilderTest.java
+--- a/core-rpc/src/test/java/com/ensarsarajcic/neovim/java/corerpc/message/NotificationMessageBuilderTest.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/core-rpc/src/test/java/com/ensarsarajcic/neovim/java/corerpc/message/NotificationMessageBuilderTest.java	(date 1598013972770)
+@@ -24,9 +24,17 @@
+ 
+ package com.ensarsarajcic.neovim.java.corerpc.message;
+ 
++import com.fasterxml.jackson.databind.JsonNode;
++import com.fasterxml.jackson.databind.JsonSerializable;
++import com.fasterxml.jackson.databind.node.ArrayNode;
++import com.fasterxml.jackson.databind.node.IntNode;
++import com.fasterxml.jackson.databind.node.JsonNodeFactory;
++import com.fasterxml.jackson.databind.node.POJONode;
+ import org.junit.Test;
++import org.msgpack.jackson.dataformat.MessagePackExtensionType;
+ 
+ import java.util.ArrayList;
++import java.util.List;
+ 
+ import static org.junit.Assert.*;
+ 
+@@ -147,4 +155,13 @@
+         // To string doesn't crash
+         var result = builder.build().toString();
+     }
++//
++//    @Test
++//    public void testMsgPackNotification() {
++//        // Given a builder with some defaults
++//        JsonNode msgpackNode = new ArrayNode(new JsonNodeFactory(false), List.of(new POJONode(new MessagePackExtensionType((byte)0, new byte[]{2}))));
++//        JsonNode intNode = new ArrayNode(new JsonNodeFactory(false), List.of(new IntNode(1)));
++//        System.out.println(intNode.toString());
++//        System.out.println(msgpackNode.toString());
++//    }
+ }
+\ No newline at end of file
+Index: neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/util/ReflectionUtils.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/util/ReflectionUtils.java b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/util/ReflectionUtils.java
+--- a/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/util/ReflectionUtils.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-notifications/src/main/java/com/ensarsarajcic/neovim/java/notifications/util/ReflectionUtils.java	(date 1598269390751)
+@@ -26,10 +26,12 @@
+ 
+ import java.io.File;
+ import java.io.IOException;
++import java.net.URI;
++import java.net.URISyntaxException;
+ import java.net.URL;
+-import java.util.ArrayList;
+-import java.util.Enumeration;
+-import java.util.List;
++import java.nio.file.*;
++import java.util.*;
++import java.util.stream.Stream;
+ 
+ /**
+  * Utilities used for reflective access required to cast notifications to correct types
+@@ -40,6 +42,36 @@
+         throw new AssertionError("No instances");
+     }
+ 
++    public static Class[] getClasses(final String pkgName) throws IOException, URISyntaxException {
++        final String pkgPath = pkgName.replace('.', '/');
++        final URI pkg = Objects.requireNonNull(ClassLoader.getSystemClassLoader().getResource(pkgPath)).toURI();
++        final ArrayList allClasses = new ArrayList();
++
++        Path root;
++        if (pkg.toString().startsWith("jar:")) {
++            try {
++                root = FileSystems.getFileSystem(pkg).getPath(pkgPath);
++            } catch (final FileSystemNotFoundException e) {
++                root = FileSystems.newFileSystem(pkg, Collections.emptyMap()).getPath(pkgPath);
++            }
++        } else {
++            root = Paths.get(pkg);
++        }
++
++        final String extension = ".class";
++        try (final Stream<Path> allPaths = Files.walk(root)) {
++            allPaths.filter(Files::isRegularFile).forEach(file -> {
++                try {
++                    final String path = file.toString().replace('/', '.');
++                    final String name = path.substring(path.indexOf(pkgName), path.length() - extension.length());
++                    allClasses.add(Class.forName(name));
++                } catch (final ClassNotFoundException | StringIndexOutOfBoundsException ignored) {
++                }
++            });
++        }
++        return (Class[]) allClasses.toArray(new Class[allClasses.size()]);
++    }
++
+     /**
+      * Scans all classes accessible from the context class loader which belong to the given package and subpackages.
+      *
+@@ -48,7 +80,7 @@
+      * @throws ClassNotFoundException
+      * @throws IOException
+      */
+-    public static Class[] getClasses(String packageName)
++    public static Class[] getClassesOrig(String packageName)
+             throws ClassNotFoundException, IOException {
+         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+         assert classLoader != null;
+Index: neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApi.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApi.java b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApi.java
+--- a/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApi.java	(revision 5b94ac5c26bc92b025a90e2a86cc6178b42646da)
++++ b/neovim-api/src/main/java/com/ensarsarajcic/neovim/java/api/NeovimStreamApi.java	(date 1598883187235)
+@@ -36,9 +36,12 @@
+ import com.ensarsarajcic.neovim.java.corerpc.message.RequestMessage;
+ import com.ensarsarajcic.neovim.java.corerpc.reactive.ReactiveRpcStreamer;
+ 
++import java.util.ArrayList;
++import java.util.Arrays;
+ import java.util.List;
+ import java.util.Map;
+ import java.util.concurrent.CompletableFuture;
++import java.util.function.Supplier;
+ import java.util.stream.Collectors;
+ 
+ /**
+@@ -51,15 +54,20 @@
+         super(reactiveRpcStreamer);
+     }
+ 
+-    @Override
+-    public CompletableFuture<List> sendAtomic(AtomicCallBuilder atomicCallBuilder) {
+-        throw new UnsupportedOperationException("Not yet implemented");
++    public CompletableFuture<AtomicResponse> sendAtomic(RequestMessage... requests) {
++        var builder = new RequestMessage.Builder(NeovimApi.CALL_ATOMIC)
++                .addArguments(
++                        Arrays.stream(requests).map(request ->
++                                new Object[]{request.getMethod(), request.getArguments()}
++                        ).collect(Collectors.toCollection((Supplier<ArrayList<Object>>) ArrayList::new))
++                );
++        return sendWithResponseOfType(builder, AtomicResponse.class);
+     }
+ 
+-    @Override
+-    public AtomicCallBuilder prepareAtomic() {
+-        throw new UnsupportedOperationException("Not yet implemented");
+-    }
++//    @Override
++//    public AtomicCallBuilder prepareAtomic() {
++//        throw new UnsupportedOperationException("Not yet implemented");
++//    }
+ 
+     // TODO Add highlight definition
+     @Override
